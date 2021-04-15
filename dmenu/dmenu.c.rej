@@ -1,0 +1,20 @@
+--- dmenu.c
++++ dmenu.c
+@@ -701,7 +712,7 @@ static void
+ usage(void)
+ {
+ 	fputs("usage: dmenu [-bfiv] [-l lines] [-p prompt] [-fn font] [-m monitor]\n"
+-	      "             [-nb color] [-nf color] [-sb color] [-sf color] [-w windowid]\n", stderr);
++	      "             [-nb color] [-nf color] [-sb color] [-sf color] [-w windowid] [-n number]\n", stderr);
+ 	exit(1);
+ }
+ 
+@@ -744,6 +755,8 @@ main(int argc, char *argv[])
+ 			colors[SchemeSel][ColFg] = argv[++i];
+ 		else if (!strcmp(argv[i], "-w"))   /* embedding window id */
+ 			embed = argv[++i];
++		else if (!strcmp(argv[i], "-n"))   /* preselected item */
++			preselected = atoi(argv[++i]);
+ 		else
+ 			usage();
+ 
