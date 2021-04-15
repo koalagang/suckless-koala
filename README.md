@@ -13,6 +13,17 @@ Patches I'm considering adding but have not yet added:
 Patches I can't get to work:
 * password
 
+## sxiv
+
+New bindings:
+* J - zoom out
+* K - zoom in
+* L - go to next image
+* H - go to previous image
+* space - flip image
+* p - play gif
+* control+h - go to previous gif frame
+* control+l - go to next gif frame
+
 ## coming soon...
 * slock
-* sxiv
