@@ -10,9 +10,6 @@ Patches I'm considering adding but have not yet added:
 * fuzzymatch
 * pipeout
 
-Patches I can't get to work:
-* password
-
 ## sxiv
 
 New bindings:
