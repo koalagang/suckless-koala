@@ -25,5 +25,6 @@ New bindings:
 * control+h - go to previous gif frame
 * control+l - go to next gif frame
 
-## coming soon...
-* slock
+## slock
+
+Nothing special. Just a simple lockscreen.
