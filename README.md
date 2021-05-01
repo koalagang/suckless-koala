@@ -28,3 +28,5 @@ Nothing special. Just a simple lockscreen.
 
 ## coming soon...
 * dwm
+* st? (I'm quite happy with Alacritty but I might try out st)
+* ~~surf~~ `Qutebrowser ftw`
