@@ -237,6 +237,9 @@ static MouseShortcut mshortcuts[] = {
 #define MODKEY Mod1Mask
 #define TERMMOD (ControlMask|ShiftMask)
 
+static char *copyoutput[] = { "sh", "-c", "st-copyout", "externalpipe", NULL };
+static char *openurlcmd[] = { "sh", "-c", "xurls | dmenu -l 10 -w $WINDOWID | xargs xdg-open", "externalpipe", NULL };
+
 static Shortcut shortcuts[] = {
 	/* mask                 keysym          function        argument */
 	{ XK_ANY_MOD,           XK_Break,       sendbreak,      {.i =  0} },
@@ -255,6 +258,8 @@ static Shortcut shortcuts[] = {
 	{ TERMMOD,              XK_D,           kscrolldown,    {.i = 25} },
 	{ TERMMOD,              XK_K,           kscrollup,      {.i =  3} },
 	{ TERMMOD,              XK_J,           kscrolldown,    {.i =  3} },
+	{ Mod1Mask,             XK_u,           externalpipe,   {.v = openurlcmd } },
+	{ Mod1Mask,             XK_o,           externalpipe,   {.v = copyoutput } },
 };
 
 /*
