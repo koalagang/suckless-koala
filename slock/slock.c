@@ -6,6 +6,7 @@
 
 #include <ctype.h>
 #include <errno.h>
+#include <math.h>
 #include <grp.h>
 #include <pwd.h>
 #include <stdarg.h>
@@ -19,6 +20,7 @@
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/XKBlib.h>
+#include <X11/Xresource.h>
 
 #include "arg.h"
 #include "util.h"
@@ -45,6 +47,19 @@ struct xrandr {
 	int evbase;
 	int errbase;
 };
+
+/* Xresources preferences */
+enum resource_type {
+	STRING = 0,
+	INTEGER = 1,
+	FLOAT = 2
+};
+
+typedef struct {
+	char *name;
+	enum resource_type type;
+	void *dst;
+} ResourcePref;
 
 #include "config.h"
 
@@ -183,7 +198,7 @@ readpw(Display *dpy, struct xrandr *rr, struct lock **locks, int nscreens,
 				break;
 			case XK_BackSpace:
 				if (len)
-					passwd[len--] = '\0';
+					passwd[--len] = '\0';
 				break;
 			case XK_Caps_Lock:
 				caps = !caps;
@@ -210,13 +225,21 @@ readpw(Display *dpy, struct xrandr *rr, struct lock **locks, int nscreens,
 			rre = (XRRScreenChangeNotifyEvent*)&ev;
 			for (screen = 0; screen < nscreens; screen++) {
 				if (locks[screen]->win == rre->window) {
-					XResizeWindow(dpy, locks[screen]->win,
-					              rre->width, rre->height);
+					if (rre->rotation == RR_Rotate_90 ||
+					    rre->rotation == RR_Rotate_270)
+						XResizeWindow(dpy, locks[screen]->win,
+						              rre->height, rre->width);
+					else
+						XResizeWindow(dpy, locks[screen]->win,
+						              rre->width, rre->height);
 					XClearWindow(dpy, locks[screen]->win);
+					break;
 				}
 			}
-		} else for (screen = 0; screen < nscreens; screen++)
-			XRaiseWindow(dpy, locks[screen]->win);
+		} else {
+			for (screen = 0; screen < nscreens; screen++)
+				XRaiseWindow(dpy, locks[screen]->win);
+		}
 	}
 }
 
@@ -298,6 +321,57 @@ lockscreen(Display *dpy, struct xrandr *rr, int screen)
 	return NULL;
 }
 
+int
+resource_load(XrmDatabase db, char *name, enum resource_type rtype, void *dst)
+{
+	char **sdst = dst;
+	int *idst = dst;
+	float *fdst = dst;
+
+	char fullname[256];
+	char fullclass[256];
+	char *type;
+	XrmValue ret;
+
+	snprintf(fullname, sizeof(fullname), "%s.%s", "slock", name);
+	snprintf(fullclass, sizeof(fullclass), "%s.%s", "Slock", name);
+	fullname[sizeof(fullname) - 1] = fullclass[sizeof(fullclass) - 1] = '\0';
+
+	XrmGetResource(db, fullname, fullclass, &type, &ret);
+	if (ret.addr == NULL || strncmp("String", type, 64))
+		return 1;
+
+	switch (rtype) {
+	case STRING:
+		*sdst = ret.addr;
+		break;
+	case INTEGER:
+		*idst = strtoul(ret.addr, NULL, 10);
+		break;
+	case FLOAT:
+		*fdst = strtof(ret.addr, NULL);
+		break;
+	}
+	return 0;
+}
+
+void
+config_init(Display *dpy)
+{
+	char *resm;
+	XrmDatabase db;
+	ResourcePref *p;
+
+	XrmInitialize();
+	resm = XResourceManagerString(dpy);
+	if (!resm)
+		return;
+
+	db = XrmGetStringDatabase(resm);
+	for (p = resources; p < resources + LEN(resources); p++)
+		resource_load(db, p->name, p->type, p->dst);
+}
+
 static void
 usage(void)
 {
@@ -355,6 +429,8 @@ main(int argc, char **argv) {
 		die("slock: setgid: %s\n", strerror(errno));
 	if (setuid(duid) < 0)
 		die("slock: setuid: %s\n", strerror(errno));
+
+	config_init(dpy);
 
 	/* check for Xrandr support */
 	rr.active = XRRQueryExtension(dpy, &rr.evbase, &rr.errbase);

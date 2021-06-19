@@ -2,6 +2,7 @@
 /* Default settings; can be overriden by command line. */
 
 static int topbar = 1;                      /* -b  option; if 0, dmenu appears at bottom     */
+static const unsigned int alpha = 0xf0;
 /* -fn option overrides fonts[0]; default X11 font or font set */
 static const char *fonts[] = {
 	"Ubuntu Mono:size=10"
@@ -9,12 +10,19 @@ static const char *fonts[] = {
 static const char *prompt      = NULL;      /* -p  option; prompt to the left of input field */
 static const char *colors[SchemeLast][2] = {
 	/*     fg         bg       */
-	[SchemeNorm] = { "#E5E9F0", "#282A36" },
-	[SchemeSel] = { "#E5E9F0", "#B48EAD" },
-	[SchemeSelHighlight] = { "#E5E9F0", "#3B4252" },
-	[SchemeNormHighlight] = { "#EB49CF", "#3B4252" },
-	[SchemeOut] = { "#4B4252", "#B48EAD" },
+	[SchemeNorm] = { "#bbbbbb", "#222222" },
+	[SchemeSel] = { "#eeeeee", "#005577" },
+	[SchemeSelHighlight] = { "#ffc978", "#005577" },
+	[SchemeNormHighlight] = { "#ffc978", "#222222" },
+	[SchemeOut] = { "#000000", "#00ffff" },
 };
+
+static const unsigned int alphas[SchemeLast][2] = {
+	[SchemeNorm] = { OPAQUE, alpha },
+	[SchemeSel] = { OPAQUE, alpha },
+	[SchemeOut] = { OPAQUE, alpha },
+};
+
 /* -l option; if nonzero, dmenu uses vertical list with given number of lines */
 static unsigned int lines      = 0;
 /* -h option; minimum height of a menu line */
