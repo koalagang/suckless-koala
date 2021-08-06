@@ -23,7 +23,7 @@ static char *colors[][3] = {
 
 /* tagging */
 //static const char *tags[] = { "MISC", "WEB", "WATCH", "MUSIC", "GAME", "CHAT", "DEV", "STUDY" };
-static const char *tags[] = { "MISC", "WEB", "GAME", "CHAT", "DEV" };
+static const char *tags[] = { "MISC", "WEB", "GAME", "CHAT", "MUSIC", "DEV" };
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -37,6 +37,7 @@ static const Rule rules[] = {
 	{ "Brave",    NULL,       NULL,       1 << 1,       0,           -1 },
 	{ "qutebrowser", NULL,    NULL,       1 << 1,       0,            1 },
 	{ "Steam",    NULL,       NULL,       1 << 2,       1,           -1 },
+	{ "steam",    NULL,       NULL,       1 << 2,       1,           -1 },
 	{ "Lutris",   NULL,       NULL,       1 << 2,       0,           -1 },
 	{ "MultiMC",  NULL,       NULL,       1 << 2,       0,           -1 },
 	{ "Signal",   NULL,       NULL,       1 << 3,       0,            1 },
@@ -83,6 +84,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
 	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
 	{ MODKEY,                       XK_o,      incnmaster,     {.i = -1 } },
+    { MODKEY|ControlMask,           XK_space,  focusmaster,    {0} },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
 	{ MODKEY|ShiftMask,             XK_j,      movestack,      {.i = +1 } },
@@ -100,6 +102,7 @@ static Key keys[] = {
 	TAGKEYS(                        XK_c,                      2)
 	TAGKEYS(                        XK_v,                      3)
 	TAGKEYS(                        XK_b,                      4)
+	TAGKEYS(                        XK_n,                      5)
 	{ MODKEY|ControlMask,           XK_q,      quit,           {0} },
 };
 

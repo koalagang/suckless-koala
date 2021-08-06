@@ -144,7 +144,6 @@ struct Monitor {
 	Client *clients;
 	Client *sel;
 	Client *stack;
-	Client *stackfocused;
 	Monitor *next;
 	Window barwin;
 	const Layout *lt[2];
@@ -187,7 +186,6 @@ static void enternotify(XEvent *e);
 static void expose(XEvent *e);
 static void focus(Client *c);
 static void focusin(XEvent *e);
-static void focusmaster(const Arg *arg);
 static void focusmon(const Arg *arg);
 static void focusstack(const Arg *arg);
 static Atom getatomprop(Client *c, Atom prop);
@@ -712,9 +710,6 @@ detach(Client *c)
 {
 	Client **tc;
 
-	if (c == c->mon->stackfocused)
-		c->mon->stackfocused = NULL;
-
 	for (tc = &c->mon->clients; *tc && *tc != c; tc = &(*tc)->next);
 	*tc = c->next;
 }
@@ -869,28 +864,6 @@ focusin(XEvent *e)
 
 	if (selmon->sel && ev->window != selmon->sel->win)
 		setfocus(selmon->sel);
-}
-
-void
-focusmaster(const Arg *arg)
-{
-	Client *master;
-
-	if (selmon->nmaster > 1)
-		return;
-
-	master = nexttiled(selmon->clients);
-
-	if (!master)
-		return;
-
-	if (selmon->sel == master) {
-		if (master->mon->stackfocused)
-			focus(master->mon->stackfocused);
-	} else {
-		master->mon->stackfocused = master->mon->sel;
-		focus(master);
-	}
 }
 
 void
@@ -1313,7 +1286,6 @@ nexttiled(Client *c)
 void
 pop(Client *c)
 {
-	c->mon->stackfocused = nexttiled(c->mon->clients);
 	detach(c);
 	attach(c);
 	focus(c);
