@@ -6,7 +6,7 @@ static const unsigned int gappx     = 4;        /* gap pixel between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const int user_bh            = 20;        /* 0 means that dwm will calculate bar height, >= 1 means dwm will user_bh as bar height */
+static const int user_bh            = 20;       /* 0 means that dwm will calculate bar height, >= 1 means dwm will user_bh as bar height */
 static const char *fonts[]          = { "Ubuntu Mono:size=10" };
 static const char dmenufont[]       = "Ubuntu Mono:size=10";
 static char normbgcolor[]           = "#222222";
@@ -92,11 +92,10 @@ static Key keys[] = {
 	{ MODKEY,                       XK_space,  zoom,           {0} },
 	{ MODKEY|ControlMask,           XK_k,      killclient,     {0} },
 	{ MODKEY,                       XK_Tab,    setlayout,      {0} },
-	{ MODKEY,                       XK_period, view,           {.ui = ~0 } },
-	{ MODKEY|ControlMask,           XK_period, tag,            {.ui = ~0 } },
+	{ MODKEY,                       XK_m,      view,           {.ui = ~0 } },
+	{ MODKEY|ControlMask,           XK_m,      tag,            {.ui = ~0 } },
 	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
-	{ MODKEY,                       XK_F1,     xrdb,           {.v = NULL } },
 	TAGKEYS(                        XK_z,                      0)
 	TAGKEYS(                        XK_x,                      1)
 	TAGKEYS(                        XK_c,                      2)
