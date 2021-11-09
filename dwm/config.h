@@ -1,3 +1,4 @@
+/* See LICENSE file for copyright and license details. */
 
 /* appearance */
 static const unsigned int borderpx  = 2;        /* border pixel of windows */
@@ -21,6 +22,7 @@ static char *colors[][3] = {
 };
 
 /* tagging */
+//static const char *tags[] = { "MISC", "WEB", "WATCH", "MUSIC", "GAME", "CHAT", "DEV", "STUDY" };
 static const char *tags[] = { "MISC", "WEB", "GAME", "CHAT", "MUSIC", "DEV" };
 
 static const Rule rules[] = {
@@ -29,15 +31,16 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            1,            0 },
-	{ "Brave",    NULL,       NULL,       1 << 1,       0,           -1 },
-	{ "Firefox",  NULL,       NULL,       1 << 1,       0,           -1 },
-	{ "qutebrowser", NULL,    NULL,       1 << 1,       0,            1 },
+	{ "gimp",     NULL,       NULL,       0,            1,            0 },
+	{ "display",  NULL,       NULL,       0,            1,            0 }, // ImageMagick GUI
+	{ "Brave",    NULL,       NULL,       1 << 1,       0,            0 },
+	{ "qutebrowser", NULL,    NULL,       1 << 1,       0,           -1 },
 	{ "Steam",    NULL,       NULL,       1 << 2,       1,           -1 },
-	{ "Lutris",   NULL,       NULL,       1 << 2,       1,           -1 },
+	{ "steam",    NULL,       NULL,       1 << 2,       1,           -1 },
+	{ "Lutris",   NULL,       NULL,       1 << 2,       0,           -1 },
 	{ "MultiMC",  NULL,       NULL,       1 << 2,       0,           -1 },
-	{ "Signal",   NULL,       NULL,       1 << 3,       0,            1 },
-	{ "discord",  NULL,       NULL,       1 << 3,       0,            1 },
+	{ "Signal",   NULL,       NULL,       1 << 3,       0,           -1 },
+	{ "discord",  NULL,       NULL,       1 << 3,       0,           -1 },
 	{ "Godot",    NULL,       NULL,       1 << 4,       0,           -1 },
 	{ "lmms",     NULL,       NULL,       1 << 4,       0,           -1 },
 };
