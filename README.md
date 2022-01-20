@@ -1,5 +1,5 @@
 # Suckless Koala
-Any patches applied can be found in a patches folder within the respective application's directory.
+Any patches applied can be found in a patches folder within the respective application's directory.\
 dwm, dmenu, st and slock all have xresources patches so their colours are sourced from my xresources file (which can be found in [my dotfiles repo](https://github.com/koalagang/dotfiles))
 
 ## sxiv
