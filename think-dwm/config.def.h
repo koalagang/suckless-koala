@@ -22,7 +22,6 @@ static char *colors[][3] = {
 };
 
 /* tagging */
-//static const char *tags[] = { "MISC", "WEB", "WATCH", "MUSIC", "GAME", "CHAT", "DEV", "STUDY" };
 static const char *tags[] = { "MISC", "WEB", "GAME", "CHAT", "MUSIC", "DEV" };
 
 static const Rule rules[] = {
@@ -31,24 +30,15 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "gimp",     NULL,       NULL,       0,            1,            0 },
-	{ "display",  NULL,       NULL,       0,            1,            0 }, // ImageMagick GUI
-	{ "Brave",    NULL,       NULL,       1 << 1,       0,            0 },
-	{ "qutebrowser", NULL,    NULL,       1 << 1,       0,           -1 },
-	{ "Steam",    NULL,       NULL,       1 << 2,       1,           -1 },
-	{ "steam",    NULL,       NULL,       1 << 2,       1,           -1 },
-	{ "Lutris",   NULL,       NULL,       1 << 2,       0,           -1 },
-	{ "MultiMC",  NULL,       NULL,       1 << 2,       0,           -1 },
-	{ "Signal",   NULL,       NULL,       1 << 3,       0,           -1 },
-	{ "discord",  NULL,       NULL,       1 << 3,       0,           -1 },
-	{ "Godot",    NULL,       NULL,       1 << 4,       0,           -1 },
-	{ "lmms",     NULL,       NULL,       1 << 4,       0,           -1 },
+	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
+	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
 };
 
 /* layout(s) */
 static const float mfact     = 0.5; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
+static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
@@ -87,7 +77,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_j,      movestack,      {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_k,      movestack,      {.i = -1 } },
 	{ MODKEY,                       XK_space,  zoom,           {0} },
-	{ MODKEY|ControlMask,           XK_k,      killclient,     {0} },
+//	{ MODKEY|ControlMask,           XK_k,        killclient,   {0} },
 	{ MODKEY,                       XK_Tab,    setlayout,      {0} },
 	{ MODKEY,                       XK_m,      view,           {.ui = ~0 } },
 	{ MODKEY|ControlMask,           XK_m,      tag,            {.ui = ~0 } },
@@ -112,6 +102,7 @@ static Button buttons[] = {
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
 	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
+	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
 	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
