@@ -3,7 +3,7 @@ static const Block blocks[] = {
 	/*Icon*/	/*Command*/		/*Update Interval*/	/*Update Signal*/
 	{"", "setxkbmap -query | tail -1 | awk '{print $2}' | tr '[:lower:]' '[:upper:]'",	0,		1},
 	{"VOL: ", "dwmblocks-volume",					0,		2},
-	{"BAT:", "echo $(cat /sys/class/power_supply/BAT0/capacity)%",					60,		0},
+	{"BAT: ", "dwmblocks-battery",					60,		0},
 	{"", "date +'%A %b %d %H:%M'",					60,		0},
 };
 
