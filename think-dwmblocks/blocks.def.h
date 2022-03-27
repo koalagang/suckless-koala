@@ -4,7 +4,7 @@ static const Block blocks[] = {
 	{"", "setxkbmap -query | tail -1 | awk '{print $2}' | tr '[:lower:]' '[:upper:]'",	0,		1},
 	{"VOL: ", "dwmblocks-volume",					0,		2},
 	{"BAT: ", "dwmblocks-battery",					60,		0},
-	{"", "date +'%A %b %d %H:%M'",					60,		0},
+	{"", "date +'%A %d %b %H:%M'",					60,		0},
 };
 
 // sets delimeter between status commands. NULL character ('\0') means no delimeter.
