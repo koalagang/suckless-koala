@@ -9,7 +9,7 @@ blocks.h:
 
 
 clean:
-	rm -f *.o *.gch dwmblocks
+	rm -f *.o *.gch *.orig dwmblocks blocks.h
 install: output
 	mkdir -p $(DESTDIR)$(PREFIX)/bin
 	install -m 0755 dwmblocks $(DESTDIR)$(PREFIX)/bin/dwmblocks
