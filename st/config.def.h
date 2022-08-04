@@ -9,7 +9,7 @@ static char *font = "Liberation Mono:pixelsize=12:antialias=true:autohint=true";
 /* Spare fonts */
 static char *font2[] = {
     "Hack Nerd Font Mono:pixelsize=20:antialias=true:autohint=true",
-    "JoyPixels:pixelsize=12:antialias=true:autohint=true",
+    "JoyPixels:pixelsize=15:antialias=true:autohint=true",
 };
 
 static int borderpx = 2;
@@ -101,7 +101,6 @@ unsigned int tabspaces = 8;
 
 /* bg opacity */
 float alpha = 0.8;
-float alphaUnfocus;
 
 /* Terminal colors (16 first used in escape sequence) */
 static const char *colorname[] = {
@@ -136,13 +135,9 @@ static const char *colorname[] = {
  * Default colors (colorname index)
  * foreground, background, cursor, reverse cursor
  */
-/*unsigned int defaultfg = 7;
-unsigned int defaultbg = 258;
-static unsigned int defaultcs = 256;
-static unsigned int defaultrcs = 257;*/
 unsigned int defaultfg = 257;
-static unsigned int defaultcs = 13;
 unsigned int defaultbg = 256;
+unsigned int defaultcs = 13;
 static unsigned int defaultrcs = 13;
 
 /*
@@ -215,7 +210,6 @@ ResourcePref resources[] = {
 		{ "borderpx",     INTEGER, &borderpx },
 		{ "cwscale",      FLOAT,   &cwscale },
 		{ "chscale",      FLOAT,   &chscale },
-		{ "alpha",        FLOAT,   &alpha },
 };
 
 /*
@@ -224,8 +218,6 @@ ResourcePref resources[] = {
  */
 static MouseShortcut mshortcuts[] = {
 	/* mask                 button   function        argument       release */
-    { ShiftMask,            Button4, kscrollup,      {.i = 5} },
-    { ShiftMask,            Button5, kscrolldown,    {.i = 5} },
 	{ XK_ANY_MOD,           Button2, selpaste,       {.i = 0},      1 },
 	{ ShiftMask,            Button4, ttysend,        {.s = "\033[5;2~"} },
 	{ XK_ANY_MOD,           Button4, ttysend,        {.s = "\031"} },
@@ -237,8 +229,9 @@ static MouseShortcut mshortcuts[] = {
 #define MODKEY Mod1Mask
 #define TERMMOD (ControlMask|ShiftMask)
 
+static char *openurlcmd[] = { "sh", "-c", "st-urlhandler -o", "externalpipe", NULL };
+static char *copyurlcmd[] = { "sh", "-c", "st-urlhandler -c", "externalpipe", NULL };
 static char *copyoutput[] = { "sh", "-c", "st-copyout", "externalpipe", NULL };
-static char *openurlcmd[] = { "sh", "-c", "xurls | dmenu -l 10 -w $WINDOWID | xargs xdg-open", "externalpipe", NULL };
 
 static Shortcut shortcuts[] = {
 	/* mask                 keysym          function        argument */
@@ -246,9 +239,9 @@ static Shortcut shortcuts[] = {
 	{ ControlMask,          XK_Print,       toggleprinter,  {.i =  0} },
 	{ ShiftMask,            XK_Print,       printscreen,    {.i =  0} },
 	{ XK_ANY_MOD,           XK_Print,       printsel,       {.i =  0} },
-	{ TERMMOD,              XK_H,           zoom,           {.f = +1} },
-	{ TERMMOD,              XK_L,           zoom,           {.f = -1} },
-	{ TERMMOD,              XK_M,           zoomreset,      {.f =  0} },
+	{ TERMMOD,              XK_Prior,       zoom,           {.f = +1} },
+	{ TERMMOD,              XK_Next,        zoom,           {.f = -1} },
+	{ TERMMOD,              XK_Home,        zoomreset,      {.f =  0} },
 	{ TERMMOD,              XK_C,           clipcopy,       {.i =  0} },
 	{ TERMMOD,              XK_V,           clippaste,      {.i =  0} },
 	{ TERMMOD,              XK_Y,           selpaste,       {.i =  0} },
@@ -258,8 +251,9 @@ static Shortcut shortcuts[] = {
 	{ TERMMOD,              XK_D,           kscrolldown,    {.i = 25} },
 	{ TERMMOD,              XK_K,           kscrollup,      {.i =  3} },
 	{ TERMMOD,              XK_J,           kscrolldown,    {.i =  3} },
-	{ Mod1Mask,             XK_u,           externalpipe,   {.v = openurlcmd } },
-	{ Mod1Mask,             XK_c,           externalpipe,   {.v = copyoutput } },
+	{ MODKEY,               XK_o,           externalpipe,   {.v = openurlcmd } },
+	{ MODKEY,               XK_u,           externalpipe,   {.v = copyurlcmd } },
+	{ MODKEY,               XK_c,           externalpipe,   {.v = copyoutput } },
 };
 
 /*
@@ -531,4 +525,3 @@ static char ascii_printable[] =
 	" !\"#$%&'()*+,-./0123456789:;<=>?"
 	"@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_"
 	"`abcdefghijklmnopqrstuvwxyz{|}~";
-

@@ -1,4 +1,3 @@
-/* See LICENSE file for copyright and license details. */
 
 /* appearance */
 static const unsigned int borderpx  = 2;        /* border pixel of windows */
@@ -6,8 +5,9 @@ static const unsigned int gappx     = 4;        /* gap pixel between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "monospace:size=10" };
-static const char dmenufont[]       = "monospace:size=10";
+static const int user_bh            = 20;       /* 0 means that dwm will calculate bar height, >= 1 means dwm will user_bh as bar height */
+static const char *fonts[]          = { "Ubuntu Mono:size=10" };
+static const char dmenufont[]       = "Ubuntu Mono:size=10";
 static char normbgcolor[]           = "#222222";
 static char normbordercolor[]       = "#444444";
 static char normfgcolor[]           = "#bbbbbb";
@@ -21,7 +21,7 @@ static char *colors[][3] = {
 };
 
 /* tagging */
-static const char *tags[] = { "MISC", "WEB", "STUDY", "CHAT", "MUSIC", "DEV" };
+static const char *tags[] = { "MISC", "WEB", "GAME", "CHAT", "MUSIC", "DEV" };
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -30,20 +30,29 @@ static const Rule rules[] = {
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "Gimp",     NULL,       NULL,       0,            1,            0 },
-	{ "Brave-browser",  "brave-browser",       NULL,       1 << 1,       0,           -1 },
+	{ "Brave",    NULL,       NULL,       1 << 1,       0,           -1 },
+	{ "Firefox",  NULL,       NULL,       1 << 1,       0,           -1 },
+	{ "Steam",    NULL,       NULL,       1 << 2,       1,           -1 },
+	{ "itch",    NULL,       NULL,       1 << 2,       1,           -1 },
+	{ "Lutris",   NULL,       NULL,       1 << 2,       1,           -1 },
+	{ "lutris",   NULL,       NULL,       1 << 2,       1,           -1 },
+	{ "PolyMC",  NULL,       NULL,       1 << 2,       0,           -1 },
+	{ "Signal",   NULL,       NULL,       1 << 3,       0,            1 },
+	{ "discord",  NULL,       NULL,       1 << 3,       0,            1 },
+	{ "Godot",    NULL,       NULL,       1 << 4,       0,           -1 },
+	{ "lmms",     NULL,       NULL,       1 << 4,       0,           -1 },
 };
 
 /* layout(s) */
-static const float mfact     = 0.5;  /* factor of master area size [0.05..0.95] */
+static const float mfact     = 0.5; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
-static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
 	{ "[]=",      tile },    /* first entry is default */
 	{ "[M]",      monocle },
-    { "><>",      NULL },    /* no layout function means floating behavior */
+	{ "><>",      NULL },    /* no layout function means floating behavior */
 };
 
 /* key definitions */
@@ -70,14 +79,14 @@ static Key keys[] = {
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
 	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
 	{ MODKEY,                       XK_o,      incnmaster,     {.i = -1 } },
+    { MODKEY|ControlMask,           XK_space,  focusmaster,    {0} },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
 	{ MODKEY|ShiftMask,             XK_j,      movestack,      {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_k,      movestack,      {.i = -1 } },
 	{ MODKEY,                       XK_space,  zoom,           {0} },
-	//{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
+//	{ MODKEY|ControlMask,           XK_k,        killclient,   {0} },
 	{ MODKEY,                       XK_Tab,    setlayout,      {0} },
-	//{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_m,      view,           {.ui = ~0 } },
 	{ MODKEY|ControlMask,           XK_m,      tag,            {.ui = ~0 } },
 	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
@@ -101,7 +110,6 @@ static Button buttons[] = {
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
 	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
-	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
 	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
