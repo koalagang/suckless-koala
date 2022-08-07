@@ -31,7 +31,7 @@ static const Rule rules[] = {
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "Gimp",     NULL,       NULL,       0,            1,            0 },
     { "Signal",   NULL,        NULL,      1 << 3,       0,           -1 },
-	{ "Brave-browser",  "brave-browser",       NULL,       1 << 1,       0,           -1 },
+	{ "Brave-browser",  "brave-browser",NULL,1 << 1,    0,           -1 },
 };
 
 /* layout(s) */
@@ -79,6 +79,7 @@ static Key keys[] = {
 	//{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
 	{ MODKEY,                       XK_Tab,    setlayout,      {0} },
 	//{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
+	{ MODKEY|ControlMask,           XK_f,      togglefullscr,  {0} },
 	{ MODKEY,                       XK_m,      view,           {.ui = ~0 } },
 	{ MODKEY|ControlMask,           XK_m,      tag,            {.ui = ~0 } },
 	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
