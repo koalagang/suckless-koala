@@ -29,9 +29,9 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            1,            0 },
-    { "Signal",   NULL,        NULL,      1 << 3,       0,           -1 },
-	{ "Brave-browser",  "brave-browser",NULL,1 << 1,    0,           -1 },
+    { "Signal",   NULL,       NULL,       1 << 3,       0,           -1 },
+    { "Anki",     NULL,       NULL,       1 << 2,       1,           -1 },
+	{ "LibreWolf",NULL,       NULL,       1 << 1,       0,           -1 },
 };
 
 /* layout(s) */
@@ -69,8 +69,8 @@ static Key keys[] = {
 	{ MODKEY,                       XK_p,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
-	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
-	{ MODKEY,                       XK_o,      incnmaster,     {.i = -1 } },
+	{ MODKEY|ShiftMask,             XK_h,      incnmaster,     {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_l,      incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
 	{ MODKEY|ShiftMask,             XK_j,      movestack,      {.i = +1 } },
@@ -78,7 +78,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_space,  zoom,           {0} },
 	//{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
 	{ MODKEY,                       XK_Tab,    setlayout,      {0} },
-	//{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
+	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY|ControlMask,           XK_f,      togglefullscr,  {0} },
 	{ MODKEY,                       XK_m,      view,           {.ui = ~0 } },
 	{ MODKEY|ControlMask,           XK_m,      tag,            {.ui = ~0 } },
