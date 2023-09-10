@@ -1,3 +1,6 @@
+# Archived
+I've created new builds over at my [suckless-koala](https://github.com/orgs/suckless-koala/repositories) organisation. All new suckless software or changes to existing builds are now be stored there and this repository is now archived.
+
 # Suckless Koala
 Any patches applied can be found in a patches folder within the respective application's directory.\
 dwm, dmenu, st and slock all have xresources/xrdb patches so their colours are sourced from my xresources file
